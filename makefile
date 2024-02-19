@@ -4,8 +4,8 @@ CC = gcc #if we want to change compiler
 all: myShell
 	./myShell
 
-myShell:myShell.o 
-	$(CC) $(FLAGS) -o myShell myShell.o 
+myShell:myShell.o myFunctionShell.o
+	$(CC) $(FLAGS) -o myShell myShell.o myFunctionShell.o
 
 
 myShell.o: myShell.c myShell.h
