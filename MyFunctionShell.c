@@ -63,6 +63,9 @@ void echo(char **arguments)
 }
 void cd(char *path)
 {
+    printf("%s\n", path);
+    // if (firstChar == '"') {
+    // }
     if (chdir(path) != 0)
     {
         puts("Error: No such file or directory");
