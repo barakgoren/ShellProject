@@ -10,9 +10,10 @@ int main()
         int piping = 0;
         getLocation();
         char *str = inputFromUser();
-        if (strcmp(str, "exit") == 0)
-            logout(str);
         char **argumnts = splitString(str);
+        if (strcmp(argumnts[0], "exit") == 0){
+            logout(str, argumnts);
+        }
         if (strcmp(str, "echo") == 0)
             echo(argumnts);
         else if (strcmp(str, "cd") == 0)

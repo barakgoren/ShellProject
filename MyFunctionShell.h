@@ -22,7 +22,7 @@ char* recoverString(char**, char*);
 char* inputFromUser();
 char** splitString(char*);
 void getLocation();
-void logout(char*);
+void logout(char*, char**);
 void echo(char **arguments);
 void cd(char *path);
 void cp(char **arguments);

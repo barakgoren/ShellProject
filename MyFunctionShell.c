@@ -1,4 +1,6 @@
 #include "MyFunctionShell.h"
+#include <stddef.h> // Include this header to define NULL
+
 
 // Not related to the shell
 void blue()
@@ -142,6 +144,7 @@ char *recoverString(char **arguments, char *delim)
             s++;
         }
     }
+    recoverString[strlen(recoverString) - 1] = '\0';
     return recoverString;
 }
 char *inputFromUser()
@@ -195,22 +198,32 @@ char **splitString(char *str)
 }
 void getLocation()
 {
+
     char location[256];
+    char hostName[256];
+
+    if (gethostname(hostName, sizeof(hostName)) == -1){
+        puts("Error");
+        return;
+    }
+    
     if (getcwd(location, sizeof(location)) == NULL)
     {
         puts("Error");
         return;
     }
-    printf("%s", "\033[33mBarak-MBP:Barak's-Shell$-\033[0m\0");
+    printf("%s", "\033[33mBarak's-Shell$-\033[0m\0");
     printf("\033[0;34m");
+    printf("%s",hostName);
     printf("%s$ ", location);
     printf("\033[0m");
 }
 
-void logout(char *str)
+void logout(char *str, char **args)
 {
     puts("logout");
     free(str);
+    free(args);
     exit(0);
 }
 void echo(char **arguments)
@@ -221,8 +234,7 @@ void cd(char *path)
 {
     if (chdir(path) != 0)
     {
-        printf("Error: No such file or directory %s\n", path);
-        perror("");
+        printf("Error: No such file or directory '%s'\n", path);
     }
 }
 void cp(char **arguments)
