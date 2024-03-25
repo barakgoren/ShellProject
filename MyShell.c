@@ -70,9 +70,9 @@ int main()
                 printf("Error: File not moved\n");
             }
         }
-        else if(strcmp(str, "echop"))
+        else if(strcmp(str, "echop") == 0)
         {
-            
+            echoappend(argumnts);
         }
         else if (piping)
         {
