@@ -33,3 +33,4 @@ void delete(char **arguments);
 void mypipe(char **argv1, char **argv2);
 void systemCall(char **arg);
 void myRead(char **args);
+void wordCount(char **args);

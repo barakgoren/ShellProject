@@ -445,3 +445,52 @@ void myRead(char **args)
     printf("\n");
     fclose(file);
 }
+void wordCount(char **args)
+{
+    if (args[1] == NULL || args[2] == NULL)
+    {
+        fprintf(stderr, "Usage: wc [-l] [-w] [file path]\n");
+        return;
+    }
+    char *filePath = args[2];
+    if(*args[2] == '"') {
+        filePath = recoverString(args + 2, " ");
+    }
+    FILE *file = fopen(filePath, "r");
+    if (file == NULL)
+    {
+        printf("Error: File not found\n %s\n", filePath);
+        return;
+    }
+    int lines = 1;
+    int words = 0;
+
+    if (strcmp(args[1], "-l") == 0)
+    {
+        char ch;
+        while ((ch = fgetc(file)) != EOF)
+        {
+            if (ch == '\n')
+            {
+                lines++;
+            }
+        }
+        printf("Lines: %d\n", lines);
+    }
+    else if (strcmp(args[1], "-w") == 0)
+    {
+        char ch;
+        while ((ch = fgetc(file)) != EOF)
+        {
+            if (ch == ' ' || ch == '\n')
+            {
+                words++;
+            }
+        }
+        printf("Words: %d\n", words);
+    }
+    else
+    {
+        printf("Error: Invalid option\n");
+    }
+}

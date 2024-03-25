@@ -94,6 +94,10 @@ int main()
         {
             myRead(argumnts);
         }
+        else if(strcmp(str, "wc") == 0)
+        {
+            wordCount(argumnts);
+        }
         else
         {
             int status;
