@@ -18,6 +18,7 @@ int main()
             echo(argumnts);
         else if (strcmp(str, "cd") == 0)
         {
+            // Check if the path is in quotes (which means it has spaces in it)
             if (*argumnts[1] == '"')
             {
                 char *path = recoverString(argumnts + 1, " ");

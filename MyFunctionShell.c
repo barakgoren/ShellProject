@@ -1,7 +1,6 @@
 #include "MyFunctionShell.h"
 #include <stddef.h> // Include this header to define NULL
 
-
 // Not related to the shell
 void blue()
 {
@@ -118,6 +117,18 @@ char *myStrtok(char *str, const char *delim)
     // Return the current token
     return current_token;
 }
+/*
+ * Description:
+ *     This function is used to recover the original string from the arguments array.
+ *
+ * Arguments:
+ *    char **arguments: The arguments array that contains the original string (including the closing quotation marks).
+ *
+ *   char *delim: The delimiter that separates the arguments.
+ *
+ * Return Value:
+ *   char *: The original string without the closing quotation marks.
+ */
 char *recoverString(char **arguments, char *delim)
 {
     char *recoverString = arguments[0];
@@ -126,14 +137,6 @@ char *recoverString(char **arguments, char *delim)
     for (char **p = arguments; *p != NULL; p++)
     {
         char *s = *p;
-        if (*(p + 1) == NULL)
-        {
-            while (*s != '"')
-            {
-                s++;
-            }
-            *s = '\0';
-        }
         while (1)
         {
             if (*s == '\0')
@@ -142,6 +145,11 @@ char *recoverString(char **arguments, char *delim)
                 break;
             }
             s++;
+            if (*s == '"')
+            {
+                *s = '\0';
+                return recoverString;
+            }
         }
     }
     recoverString[strlen(recoverString) - 1] = '\0';
@@ -202,11 +210,12 @@ void getLocation()
     char location[256];
     char hostName[256];
 
-    if (gethostname(hostName, sizeof(hostName)) == -1){
+    if (gethostname(hostName, sizeof(hostName)) == -1)
+    {
         puts("Error");
         return;
     }
-    
+
     if (getcwd(location, sizeof(location)) == NULL)
     {
         puts("Error");
@@ -214,7 +223,7 @@ void getLocation()
     }
     printf("%s", "\033[33mBarak's-Shell$-\033[0m\0");
     printf("\033[0;34m");
-    printf("%s",hostName);
+    printf("%s", hostName);
     printf("%s$ ", location);
     printf("\033[0m");
 }
@@ -241,14 +250,38 @@ void cp(char **arguments)
 {
     char ch;
     FILE *src, *des;
-    if ((src = fopen(arguments[1], "r")) == NULL)
+    char *finalPathSrc = arguments[1];
+    char *finalPathDes = arguments[2];
+    // Check if the path of the src is in quotes (which means it has spaces in it)
+    if (*arguments[1] == '"')
     {
-        puts("Erorr");
+        finalPathSrc = recoverString(arguments + 1, " ");
+    }
+    // Check if there is another path in quotes (which means it has spaces in it)
+    int count = 2;
+    for(char **p = arguments + 2; *p != NULL; p++)
+    {
+        if (**p == '"')
+        {
+            finalPathDes = recoverString(arguments + count, " ");
+            break;
+        }
+        if(*(p + 1) == NULL){
+            finalPathDes = *p;
+        }
+        count++;
+    }
+    
+    if ((src = fopen(finalPathSrc, "r")) == NULL)
+    {
+        puts(finalPathSrc);
+        puts("Erorr in src file");
         return;
     }
-    if ((des = fopen(arguments[2], "w")) == NULL)
+    if ((des = fopen(finalPathDes, "w")) == NULL)
     {
-        puts("Erorr");
+        puts(finalPathDes);
+        puts("Erorr in des file");
         fclose(src);
         return;
     }
