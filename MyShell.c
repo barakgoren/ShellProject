@@ -90,6 +90,10 @@ int main()
             mypipe(argv1, argv2);
             wait(NULL);
         }
+        else if(strcmp(str, "read") == 0)
+        {
+            myRead(argumnts);
+        }
         else
         {
             int status;

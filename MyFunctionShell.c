@@ -425,3 +425,23 @@ void echorite(char **args)
     }
     fclose(file);
 }
+void myRead(char **args)
+{
+    char *filePath = args[1];
+    if(*args[1] == '"') {
+        filePath = recoverString(args + 1, " ");
+    }
+    FILE *file = fopen(filePath, "r");
+    if (file == NULL)
+    {
+        printf("Error: File not found\n");
+        return;
+    }
+    char ch;
+    while ((ch = fgetc(file)) != EOF)
+    {
+        printf("%c", ch);
+    }
+    printf("\n");
+    fclose(file);
+}
