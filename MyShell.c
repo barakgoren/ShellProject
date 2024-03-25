@@ -11,7 +11,8 @@ int main()
         getLocation();
         char *str = inputFromUser();
         char **argumnts = splitString(str);
-        if (strcmp(argumnts[0], "exit") == 0){
+        if (strcmp(argumnts[0], "exit") == 0)
+        {
             logout(str, argumnts);
         }
         if (strcmp(str, "echo") == 0)

@@ -313,8 +313,14 @@ void get_dir()
 }
 void delete(char **arg)
 {
-    if (unlink(arg[1]) != 0)
-        printf("-myShell: unlink: %s: No such file or directory\n", arg[1]);
+    char* path = arg[1];
+    // Check if the path is in quotes (which means it has spaces in it)
+    if (*arg[1] == '"')
+    {
+        path = recoverString(arg + 1, " ");
+    }
+    if (unlink(path) != 0)
+        printf("-myShell: unlink: %s: No such file or directory\n", path);
 }
 void systemCall(char **arg)
 {
