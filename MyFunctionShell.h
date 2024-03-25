@@ -24,6 +24,7 @@ char** splitString(char*);
 void getLocation();
 void logout(char*, char**);
 void echo(char **arguments);
+void echoappend(char **args);
 void cd(char *path);
 void cp(char **arguments);
 void get_dir();

@@ -359,3 +359,26 @@ void mypipe(char **argv1, char **argv2)
         execvp(argv2[0], argv2);
     }
 }
+void echoappend(char **args) 
+{
+    char *fileName;
+    for(char **p = args + 1; *p != NULL; p++)
+    {
+        if(**p == ">")
+        {
+            fileName = *(p + 1);
+            break;
+        }
+    }
+    // appending to file
+    FILE *file = fopen(fileName, "a");
+    if (file == NULL)
+    {
+        printf("Error: File not found\n");
+        return;
+    }
+    for (int i = 1; args[i] != ">"; i++)
+    {
+        fprintf(file, "%s ", args[i]);
+    }
+}

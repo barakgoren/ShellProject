@@ -36,6 +36,44 @@ int main()
             delete (argumnts);
         else if (strcmp(str, "dir") == 0)
             get_dir();
+        else if (strcmp(str, "mv") == 0)
+        {
+            char *finalPathSrc = argumnts[1];
+            char *finalPathDes = argumnts[2];
+            // Check if the path of the src is in quotes (which means it has spaces in it)
+            if (*argumnts[1] == '"')
+            {
+                finalPathSrc = recoverString(argumnts + 1, " ");
+            }
+            // Check if there is another path in quotes (which means it has spaces in it)
+            int count = 2;
+            for (char **p = argumnts + 2; *p != NULL; p++)
+            {
+                if (**p == '"')
+                {
+                    finalPathDes = recoverString(argumnts + count, " ");
+                    break;
+                }
+                if (*(p + 1) == NULL)
+                {
+                    finalPathDes = *p;
+                }
+                count++;
+            }
+
+            if (rename(finalPathSrc, finalPathDes) == 0)
+            {
+                printf("File moved successfully\n");
+            }
+            else
+            {
+                printf("Error: File not moved\n");
+            }
+        }
+        else if(strcmp(str, "echop"))
+        {
+            
+        }
         else if (piping)
         {
             char *argv1[] = {argumnts[0], NULL};
