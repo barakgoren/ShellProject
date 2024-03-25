@@ -16,7 +16,20 @@ int main()
             logout(str, argumnts);
         }
         if (strcmp(str, "echo") == 0)
-            echo(argumnts);
+        {
+            // Check if there is a '>>' or '>' in the arguments
+            for (char **p = argumnts + 1; *p != NULL; p++)
+            {
+                if (strcmp(*p, ">>") == 0)
+                {
+                    echoappend(argumnts);
+                }
+                else if (strcmp(*p, ">") == 0)
+                {
+                    echorite(argumnts);
+                }
+            }
+        }
         else if (strcmp(str, "cd") == 0)
         {
             // Check if the path is in quotes (which means it has spaces in it)
@@ -69,10 +82,6 @@ int main()
             {
                 printf("Error: File not moved\n");
             }
-        }
-        else if(strcmp(str, "echop") == 0)
-        {
-            echoappend(argumnts);
         }
         else if (piping)
         {

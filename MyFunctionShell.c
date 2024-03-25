@@ -392,3 +392,36 @@ void echoappend(char **args)
     }
     fclose(file);
 }
+void echorite(char **args)
+{
+    char *fileName;
+    int counter = 1;
+    for(char **p = args + 1; *p != NULL; p++)
+    {
+        if(**p == '>')
+        {
+            fileName = *(p + 1);
+            //check if there is a quotation mark in the file name (which means it has spaces in it)
+            if(*fileName == '"')
+            {
+                fileName = recoverString(args + (counter+1), " ");
+            }
+            break;
+        }
+        counter++;
+    }
+    // writing to file
+    FILE *file = fopen(fileName, "w");
+    if (file == NULL)
+    {
+        // Check the file name
+        printf("Try to write to file '%s'\n", fileName);
+        printf("Error: File not found\n");
+        return;
+    }
+    for (int i = 1; *args[i] != '>'; i++)
+    {
+        fprintf(file, "%s ", args[i]);
+    }
+    fclose(file);
+}
